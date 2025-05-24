@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFM - Plataforma de Investimentos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            opacity: 0;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .glow-effect:hover {
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.9);
+        }
+        
+        .level-card {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, rgba(30, 30, 60, 0.8), rgba(10, 10, 30, 0.9));
+            border: 1px solid #4a00e0;
+        }
+        
+        .level-card:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, rgba(40, 40, 80, 0.8), rgba(20, 20, 50, 0.9));
+        }
+        
+        .payment-method {
+            transition: all 0.3s ease;
+            background: rgba(20, 20, 40, 0.7);
+            border: 1px solid #4a00e0;
+        }
+        
+        .payment-method:hover {
+            transform: scale(1.02);
+            background: rgba(30, 30, 60, 0.7);
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Star Background -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- Header -->
+    <header class="bg-black bg-opacity-80 text-white py-4 px-6 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-coins text-yellow-400 text-2xl"></i>
+                <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-500">DFM Investimentos</h1>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#planos" class="hover:text-yellow-400 transition">Planos</a>
+                <a href="#pagamento" class="hover:text-yellow-400 transition">Pagamento</a>
+                <a href="#suporte" class="hover:text-yellow-400 transition">Suporte</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button class="px-4 py-2 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 transition">Começar</button>
+                <button class="md:hidden" id="mobileMenuBtn">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-90 z-40 hidden">
+        <div class="flex flex-col items-center justify-center h-full space-y-8">
+            <button id="closeMobileMenu" class="absolute top-6 right-6 text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <a href="#planos" class="text-2xl hover:text-yellow-400 transition">Planos</a>
+            <a href="#pagamento" class="text-2xl hover:text-yellow-400 transition">Pagamento</a>
+            <a href="#suporte" class="text-2xl hover:text-yellow-400 transition">Suporte</a>
+            <button class="px-6 py-3 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 transition text-xl">Começar</button>
+        </div>
+    </div>
+    
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+        <div class="container mx-auto px-6 py-16 text-center">
+            <div class="max-w-4xl mx-auto animate-float">
+                <i class="fas fa-coins text-6xl text-yellow-400 mb-6"></i>
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-500">Invista e Ganhe</h1>
+                <p class="text-xl md:text-2xl mb-10 text-gray-300">Aumente seu capital com nosso sistema de níveis de investimento</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#planos" class="px-8 py-4 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 transition font-bold text-lg glow-effect">Ver Planos</a>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-0 right-0 flex justify-center">
+            <a href="#planos" class="animate-bounce">
+                <i class="fas fa-chevron-down text-2xl text-yellow-400"></i>
+            </a>
+        </div>
+    </section>
+    
+    <!-- Planos Section -->
+    <section id="planos" class="py-20 bg-black bg-opacity-70">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-500">Níveis de Investimento</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" id="levelsContainer">
+                <!-- Level cards will be generated by JavaScript -->
+            </div>
+            
+            <div class="mt-16 text-center">
+                <p class="text-gray-400 mb-6">* Os ganhos são creditados diariamente após 24 horas da compra do nível.</p>
+                <p class="text-gray-400">* Valor mínimo para saque: 3.500 Kz.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pagamento Section -->
+    <section id="pagamento" class="py-20 bg-gray-900 bg-opacity-70">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-500">Métodos de Pagamento</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="payment-method p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-university text-3xl text-yellow-400 mr-4"></i>
+                        <h3 class="text-xl font-bold">BIC</h3>
+                    </div>
+                    <p class="text-gray-300 mb-2">Conta: 0051.0000.8498.1632.1019.7</p>
+                    <p class="text-gray-400 text-sm">Utilize este número de conta para transferências bancárias</p>
+                </div>
+                
+                <div class="payment-method p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-landmark text-3xl text-yellow-400 mr-4"></i>
+                        <h3 class="text-xl font-bold">BAI</h3>
+                    </div>
+                    <p class="text-gray-300 mb-2">Conta: 0040.0000.7581.7124.1010.6</p>
+                    <p class="text-gray-400 text-sm">Utilize este número de conta para transferências bancárias</p>
+                </div>
+                
+                <div class="payment-method p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-piggy-bank text-3xl text-yellow-400 mr-4"></i>
+                        <h3 class="text-xl font-bold">BFA</h3>
+                    </div>
+                    <p class="text-gray-300 mb-2">Conta: 0006.0000.1060.0787.3015.8</p>
+                    <p class="text-gray-400 text-sm">Utilize este número de conta para transferências bancárias</p>
+                </div>
+                
+                <div class="payment-method p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-mobile-alt text-3xl text-yellow-400 mr-4"></i>
+                        <h3 class="text-xl font-bold">UNITEL MONEY</h3>
+                    </div>
+                    <p class="text-gray-300 mb-2">Número: 942345333</p>
+                    <p class="text-gray-400 text-sm">Utilize este número para transferências via mobile money</p>
+                </div>
+            </div>
+            
+            <div class="mt-12 max-w-4xl mx-auto bg-gray-800 bg-opacity-80 p-6 rounded-xl">
+                <h3 class="text-xl font-bold mb-4 text-yellow-400">Instruções para Pagamento</h3>
+                <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                    <li>Escolha um dos métodos de pagamento acima</li>
+                    <li>Realize a transferência para o número/conta indicado</li>
+                    <li>Envie o comprovante para nosso WhatsApp de suporte</li>
+                    <li>Seu nível será ativado em até 24 horas após confirmação</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Suporte Section -->
+    <section id="suporte" class="py-20 bg-black bg-opacity-70">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-500">Suporte ao Cliente</h2>
+            
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-900 bg-opacity-80 p-8 rounded-xl">
+                    <div class="text-yellow-400 text-4xl mb-4">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Email</h3>
+                    <p class="text-gray-300 mb-6">Entre em contato conosco através do nosso email de suporte:</p>
+                    <a href="mailto:suporte@dfm.com" class="text-yellow-400 hover:text-yellow-300 transition break-all">suporte@dfm.com</a>
+                </div>
+                <div class="bg-gray-900 bg-opacity-80 p-8 rounded-xl">
+                    <div class="text-yellow-400 text-4xl mb-4">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">WhatsApp</h3>
+                    <p class="text-gray-300 mb-6">Fale diretamente com nosso atendimento:</p>
+                    <a href="https://wa.me/244925395361" class="text-yellow-400 hover:text-yellow-300 transition">+244 925 395 361</a>
+                </div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto mt-12 bg-gray-900 bg-opacity-80 p-8 rounded-xl">
+                <h3 class="text-xl font-bold mb-6 text-yellow-400">Horário de Atendimento</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <p class="text-gray-400">Segunda a Sexta</p>
+                        <p class="text-lg text-gray-300">08:00 - 18:00</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Sábado</p>
+                        <p class="text-lg text-gray-300">09:00 - 14:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-black bg-opacity-90 text-gray-400 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-coins text-yellow-400 text-2xl"></i>
+                        <h3 class="text-xl font-bold text-white">DFM Investimentos</h3>
+                    </div>
+                    <p class="mb-4">Sistema de investimento com retorno garantido.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#planos" class="hover:text-yellow-400 transition">Planos</a></li>
+                        <li><a href="#pagamento" class="hover:text-yellow-400 transition">Pagamento</a></li>
+                        <li><a href="#suporte" class="hover:text-yellow-400 transition">Suporte</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Contato</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-2 text-yellow-400"></i>
+                            <span>suporte@dfm.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-2 text-yellow-400"></i>
+                            <span>+244 925 395 361</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p>&copy; 2023 DFM Investimentos. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Level Purchase Modal -->
+    <div id="levelModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden flex items-center justify-center">
+        <div class="bg-gray-900 rounded-xl p-8 max-w-md w-full mx-4 relative">
+            <button class="absolute top-4 right-4 text-2xl text-gray-400 hover:text-white">&times;</button>
+            <h3 class="text-2xl font-bold mb-6 text-yellow-400">Confirmar Compra</h3>
+            
+            <div class="space-y-4 mb-6">
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Nível:</span>
+                    <span class="font-bold" id="modalLevelNumber"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Valor:</span>
+                    <span class="font-bold" id="modalLevelPrice"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Ganho Diário:</span>
+                    <span class="font-bold" id="modalLevelGain"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Duração:</span>
+                    <span class="font-bold" id="modalLevelDays"></span>
+                </div>
+            </div>
+            
+            <div class="bg-gray-800 p-4 rounded-lg mb-6">
+                <p class="text-sm text-gray-300">Após a confirmação do pagamento, seus ganhos começarão a ser creditados em 24 horas.</p>
+            </div>
+            
+            <button class="w-full py-3 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 rounded-lg font-bold transition">
+                Prosseguir para Pagamento
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // Create stars for background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starsCount = 200;
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random size between 1 and 3px
+                const size = Math.random() * 2 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random position
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation duration
+                const duration = Math.random() * 5 + 3;
+                star.style.setProperty('--duration', `${duration}s`);
+                
+                // Random delay
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Levels data
+        const niveis = [
+            { nivel: 1, compra: 5000, ganho: 500, dias: 50 },
+            { nivel: 2, compra: 10000, ganho: 1200, dias: 50 },
+            { nivel: 3, compra: 15000, ganho: 1600, dias: 50 },
+            { nivel: 4, compra: 25000, ganho: 4000, dias: 50 },
+            { nivel: 5, compra: 30000, ganho: 5000, dias: 50 },
+            { nivel: 6, compra: 45000, ganho: 6500, dias: 50 },
+            { nivel: 7, compra: 50000, ganho: 8000, dias: 50 },
+            { nivel: 8, compra: 60000, ganho: 11200, dias: 40 },
+            { nivel: 9, compra: 100000, ganho: 13500, dias: 40 },
+            { nivel: 10, compra: 120000, ganho: 14200, dias: 40 },
+            { nivel: 11, compra: 130000, ganho: 20000, dias: 40 }
+        ];
+        
+        // Generate level cards
+        function generateLevelCards() {
+            const levelsContainer = document.getElementById('levelsContainer');
+            
+            niveis.forEach(nivel => {
+                const levelCard = document.createElement('div');
+                levelCard.className = 'level-card p-6 rounded-xl hover:shadow-lg transition cursor-pointer glow-effect';
+                levelCard.setAttribute('data-level', nivel.nivel);
+                
+                levelCard.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-500">Nível ${nivel.nivel}</span>
+                        <span class="px-3 py-1 bg-yellow-900 bg-opacity-30 rounded-full text-sm text-yellow-300">${nivel.dias} dias</span>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-gray-400">Valor de Compra</p>
+                            <p class="text-xl font-bold">${nivel.compra.toLocaleString()} Kz</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400">Ganho Diário</p>
+                            <p class="text-xl font-bold">${nivel.ganho.toLocaleString()} Kz</p>
+                        </div>
+                    </div>
+                    <button class="mt-6 w-full py-2 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 rounded-lg font-medium transition">
+                        Comprar Nível
+                    </button>
+                `;
+                
+                levelsContainer.appendChild(levelCard);
+                
+                // Add click event to open modal
+                levelCard.addEventListener('click', () => {
+                    openLevelModal(nivel);
+                });
+            });
+        }
+        
+        // Open level modal
+        function openLevelModal(nivel) {
+            const modal = document.getElementById('levelModal');
+            document.getElementById('modalLevelNumber').textContent = `Nível ${nivel.nivel}`;
+            document.getElementById('modalLevelPrice').textContent = `${nivel.compra.toLocaleString()} Kz`;
+            document.getElementById('modalLevelGain').textContent = `${nivel.ganho.toLocaleString()} Kz/dia`;
+            document.getElementById('modalLevelDays').textContent = `${nivel.dias} dias`;
+            modal.classList.remove('hidden');
+        }
+        
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+        
+        // Mobile menu functionality
+        function setupMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const closeMobileMenu = document.getElementById('closeMobileMenu');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('hidden');
+            });
+            
+            closeMobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        }
+        
+        // Modal functionality
+        function setupModals() {
+            // Get all modals and close buttons
+            const modals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.modal button, .close-modal');
+            
+            // Close modal when clicking on X
+            closeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modals.forEach(modal => {
+                        modal.classList.add('hidden');
+                    });
+                });
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    e.target.classList.add('hidden');
+                }
+            });
+        }
+        
+        // Smooth scrolling for anchor links
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        const mobileMenu = document.getElementById('mobileMenu');
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+        }
+        
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            generateLevelCards();
+            setupMobileMenu();
+            setupModals();
+            setupSmoothScrolling();
+        });
+    </script>
+<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=DFM-Markt/goo" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
+</html>
